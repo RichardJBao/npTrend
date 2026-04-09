@@ -1,0 +1,28 @@
+Package: npTrend
+Type: Package
+Title: Trend Estimation with Bootstrap Inference for Parametric and Nonparametric Trends in Climate Time Series
+Version: 0.1.0
+Authors@R: c(
+    person("Richard", "Bao", email = "r5bao@uwaterloo.ca", role = "aut", comment = "Package developer"),
+    person("Marina", "Friedrich", role = c("aut", "cre"), email = "m.friedrich@vu.nl", comment = "Author on paper, author of code in package"),
+    person("Stephan", "Smeekes", role = "ctb", email = "s.smeekes@maastrichtuniversity.nl", comment = "Author on paper"),
+    person("Eric", "Beutner", role = "ctb", email = "e.beutner@vu.nl", comment = "Author on paper")
+  )
+Maintainer: The package maintainer <m.friedrich@vu.nl>
+Description: Provides tools for parametric and nonparametric trend estimation and inference in time series data. 
+    Implements the methods described in Friedrich et al. (2020) <doi:10.1007/s10584-020-02806-2> for 
+    detecting trends, estimating simultaneous confidence bands, and testing for monotonicity 
+    and linearity. Features include autoregressive wild bootstrap (AWB) inference and 
+    modified cross-validation (MCV) for bandwidth selection.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    graphics,
+    stats,
+    parallel
+RoxygenNote: 7.3.3
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
