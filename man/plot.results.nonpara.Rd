@@ -4,11 +4,9 @@
 \alias{plot.results.nonpara}
 \title{Plot nonparametric trend and confidence bands}
 \usage{
-\method{plot}{results.nonpara}(x, time, low, up, xlabel, ylabel, ...)
+\method{plot}{results.nonpara}(y, time, m.hat, int.s, low, up, xlabel, ylabel)
 }
 \arguments{
-\item{x}{An object of class "results.nonpara".}
-
 \item{time}{A vector containing the corresponding dates.}
 
 \item{low}{Lower bound of y-axis.}
@@ -18,6 +16,8 @@
 \item{xlabel}{X-axis label.}
 
 \item{ylabel}{Y-axis label.}
+
+\item{x}{An object of class "results.nonpara".}
 
 \item{...}{Additional arguments passed to plot.}
 }

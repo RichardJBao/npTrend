@@ -64,15 +64,15 @@ nonpara.trend <- function(y,time,B,alpha,h,k,nterms=3,
 #'
 #' @method plot results.nonpara
 #' @export plot.results.nonpara
-plot.results.nonpara <- function(x, time, low, up, xlabel, ylabel, ...) {
-  # Extract values from the object 'x'
-  y <- x[[1]]      # Assuming y is the first element
-  m.hat <- x[[2]]  # Assuming m.hat is the second
-  int.s <- x[[4]]  # Simultaneous bands
+plot.results.nonpara <- function(y, time, m.hat, int.s, low, up, xlabel, ylabel) {
 
-  graphics::plot(time, y, type="p", ylim=c(low,up), col="grey",
-                 xlab=xlabel, ylabel=ylabel, ...)
-  graphics::lines(time, m.hat, lwd=1.5)
-  lines(time, int.s[,1], col="blue")
-  lines(time, int.s[,2], col="blue")
+  # 1. Initialize the plot and draw the grey data points
+  plot(time, y, type="p", ylim=c(low,up), col="grey", xlab=xlabel, ylab=ylabel)
+
+  # 2. Add the fitted line
+  lines(time, m.hat, lwd=1.5, col="black")
+
+  # 3. Add the upper and lower confidence intervals
+  lines(time, int.s[,1], lwd=1.5, col="blue")
+  lines(time, int.s[,2], lwd=1.5, col="blue")
 }

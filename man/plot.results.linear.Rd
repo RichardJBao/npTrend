@@ -4,22 +4,9 @@
 \alias{plot.results.linear}
 \title{Plot linear trend results}
 \usage{
-\method{plot}{results.linear}(
-  x,
-  y = NULL,
-  fit = x[[5]],
-  breakdate = x[[6]],
-  CI.break = x[[7]],
-  low,
-  up,
-  xlabel,
-  ylabel,
-  ...
-)
+\method{plot}{results.linear}(y, time, fit, breakdate, CI.break, low, up, xlabel, ylabel)
 }
 \arguments{
-\item{x}{An object of class "results.linear".}
-
 \item{y}{Ignored; included for compatibility with the plot generic.}
 
 \item{fit}{Fitted values (optional, defaults to x[[5]]).}
@@ -35,6 +22,8 @@
 \item{xlabel}{X-axis label.}
 
 \item{ylabel}{Y-axis label.}
+
+\item{x}{An object of class "results.linear".}
 
 \item{...}{Additional arguments passed to the generic \code{plot} function.}
 }

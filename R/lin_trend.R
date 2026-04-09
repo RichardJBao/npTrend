@@ -67,20 +67,17 @@ lin.trend <- function(y,time,B,alpha, nterms=3, trim.frac=0.1, cores = 1){
 #'
 #' @method plot results.linear
 #' @export plot.results.linear
-plot.results.linear <- function(x, y = NULL, fit = x[[5]], breakdate = x[[6]],
-                                CI.break = x[[7]], low, up,
-                                xlabel, ylabel, ...) {
+plot.results.linear <- function(y, time, fit, breakdate, CI.break, low, up, xlabel, ylabel) {
 
-  # Ensure we use the correct graphics calls
-  graphics::plot(x[[5]][[1]], x[[1]], pch = 16, col = "grey",
-                 ylim = c(low, up),
-                 xlab = xlabel, ylab = ylabel, ...)
+  # 1. Initialize the plot and draw the grey data points
+  plot(time, y, type="p", lwd=1.5, ylim=c(low,up), col="grey", xlab=xlabel, ylab=ylabel)
 
-  graphics::lines(x[[5]][[1]], x[[5]][[2]], col = "blue", lwd = 2)
+  # 2. Add the two fitted lines from your fit list
+  lines(time, fit[[1]], lwd=2, col="blue")
+  lines(time, fit[[2]], lwd=2, col="black")
 
-  if (breakdate != 0) {
-    graphics::abline(v = CI.break, lty = 3, lwd = 2)
-    graphics::abline(v = breakdate, lty = 1, col = "red")
-  }
+  # 3. Add the vertical breakdate confidence intervals
+  abline(v=CI.break[1], lty=3, lwd=2)
+  abline(v=CI.break[2], lty=3, lwd=2)
 }
 
