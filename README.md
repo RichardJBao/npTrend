@@ -93,7 +93,7 @@ Friedrich, Marina & Bao, Richard & Smeekes, Stephan & Beutner, Eric (2026). *npT
   author = {Friedrich, Marina and Bao, Richard and Smeekes, Stephan and Beutner, Eric},
   year = {2026},
   note = {R package version 1.0.0},
-  url = {[https://github.com/yourusername/npTrend](https://github.com/yourusername/npTrend)},
+  url = {[https://github.com/RichardJBao/npTrend](https://github.com/RichardJBao/npTrend)},
 }
 ```
 
