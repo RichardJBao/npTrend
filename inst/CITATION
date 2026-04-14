@@ -1,0 +1,12 @@
+bibentry(
+  bibtype = "Manual",
+  key     = "nptrend2026",
+  title   = "npTrend: Trend Estimation with Bootstrap Inference for Parametric and Nonparametric Trends in Climate Time Series",
+  author  = c(
+    person("Marina", "Friedrich"),
+    person("Richard", "Bao")
+  ),
+  year    = "2026",
+  note    = paste("R package version", meta$Version),
+  url     = "https://github.com/RichardJBao/npTrend"
+)
