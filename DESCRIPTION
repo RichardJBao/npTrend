@@ -4,7 +4,7 @@ Title: Trend Estimation with Bootstrap Inference for Parametric and Nonparametri
 Version: 0.1.0
 Authors@R: c(
     person("Marina", "Friedrich", role = c("aut", "cre"), email = "m.friedrich@vu.nl", comment = "Author on paper, author of code in package"),
-    person("Richard", "Bao", email = "r5bao@uwaterloo.ca", role = c("aut", "cre"), comment = "Package developer"),
+    person("Richard", "Bao", email = "r5bao@uwaterloo.ca", role = c("aut"), comment = "Package developer"),
     person("Stephan", "Smeekes", role = "ctb", email = "s.smeekes@maastrichtuniversity.nl", comment = "Author on paper"),
     person("Eric", "Beutner", role = "ctb", email = "e.beutner@vu.nl", comment = "Author on paper")
   )
@@ -22,6 +22,11 @@ Imports:
     stats,
     parallel
 RoxygenNote: 7.3.3
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+
 Suggests:
     testthat,
     knitr,

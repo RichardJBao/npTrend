@@ -32,12 +32,26 @@ Core Features
 library(npTrend)
 
 # Test for a structural break and estimate linear parameters
+# Change B as appropriate
+lin.results <- lin.trend(y, time, B = 1000, alpha = 0.05)
 
-lin_results <- lin.trend(y, time, B = 500, alpha = 0.05)
+# Assign outputs
+p.value <- lin.results[[1]]
+critical.value <- lin.results[[2]]
+S_T <- lin.results[[3]]
+para <- lin.results[[4]]
+fit.fourier <- lin.results[[5]]
+breakdate <- lin.results[[6]]
+CI.breakdate <- lin.results[[7]]
+CI.para <- lin.results[[8]]
 
-# Plot the linear fit and the identified break point
-
-plot(lin_results, xlabel = "Year", ylabel = "Measurement")
+# Print output, using "low" and "up" for suitable y-axis bounds
+# plots the estimated trend, cycle, and confidence interval of breakpoint
+low <- 0
+up <- 30e+15
+ylab <- "Ethane total column (molec cm-2)"
+xlab <- "time"
+plot.results.linear(y,time,fit.fourier,breakdate,CI.breakdate,low,up,xlab,ylab)
 ```
 
 2) Nonparametric Trend Estimation
@@ -58,6 +72,31 @@ plot(results, time = time, xlabel = "Year", ylabel = "Measurement")
 
 Marina Friedrich (author, maintainer)
 
-...
+Richard Bao (author)
 
-Richard Bao (developer)
+Stephan Smeekes (contributor)
+
+Eric Beutner (contributor)
+
+## Citation
+
+If you use `npTrend` in your research, please cite it as follows:
+
+**Plain Text:**
+Friedrich, Marina & Bao, Richard & Smeekes, Stephan & Beutner, Eric (2026). *npTrend: Non-parametric Trend Analysis*. R package version 1.0.0. https://github.com/yourusername/npTrend
+
+**BibTeX:**
+
+```bibtex
+@Manual{nptrend2026,
+  title = {npTrend: Non-parametric Trend Analysis},
+  author = {Friedrich, Marina and Bao, Richard and Smeekes, Stephan and Beutner, Eric},
+  year = {2026},
+  note = {R package version 1.0.0},
+  url = {[https://github.com/RichardJBao/npTrend](https://github.com/RichardJBao/npTrend)},
+}
+```
+
+# **References**
+Friedrich, M., Beutner, E., Reuvers, H. et al. A statistical analysis of time trends in atmospheric ethane. Climatic Change 162, 105–125 (2020). https://doi.org/10.1007/s10584-020-02806-2
+
