@@ -15,6 +15,7 @@
 #' @param C Parameter determining the extend of oversmoothing in Step 1 of the bootstrap algorithm, default is 0.5
 #' @param l Parameter for MCV, default equals 4
 #' @param grid Range of possible bandwidth for MCV, default being [0.001,0.099] in steps of 0.002
+#' @param cores cores Integer; number of CPU cores to use for parallel bootstrap. Default is 1.
 #'
 #' @return A list of class "results.nonpara" containing:
 #' \item{m.hat}{Trend estimate vector.}
@@ -25,12 +26,20 @@
 #' @export
 nonpara.trend <- function(y,time,B,alpha,h,k,nterms=3,
                           G=seq(1,length(y),1),C=0.5,l=5,
-                          grid=seq(0.01, by=0.005, length.out=50)){
+                          grid=seq(0.01, by=0.005, length.out=50), cores = 1){
   n <- length(y)
   newtime <- (time-time[1])/(time[n]-time[1])
+
   if (nterms!=0){
     y <- remove.fourier(y,time,nterms)
   }else if(nterms<0){"invalid number of Fourier terms"}
+
+  cl <- parallel::makeCluster(cores)
+  doParallel::registerDoParallel(cl)
+  parallel::clusterExport(cl,
+                          varlist = c("LCEstimation", "awb", "cholesky.decomp", "k"),
+                          envir = environment())
+
   if (h == -1){
     temp <- MCV(y,newtime,l,grid,k)
     h.opt <- temp[[1]]
@@ -42,9 +51,13 @@ nonpara.trend <- function(y,time,B,alpha,h,k,nterms=3,
   m.hat <- LCEstimation(y,newtime,h.opt,k)
   m.tilde <- LCEstimation(y,newtime,h.tilde,k)
   m.star <- AWBootstrap(y,time,m.tilde,B,h.opt,newtime,k)
+
+  parallel::stopCluster(cl)
+
   confidence.pw <- pointwise.int(y,m.hat,m.star,m.tilde,alpha,B)
   G.total <- length(G)
   confidence.simu <- simult.int(y,m.hat,m.tilde,m.star,alpha,B,G,G.total)
+
   if (h == -1){
     return(list(y,m.hat,confidence.pw,confidence.simu,h.opt,CV))
   }else{

@@ -15,7 +15,8 @@ nonpara.trend(
   G = seq(1, length(y), 1),
   C = 0.5,
   l = 5,
-  grid = seq(0.01, by = 0.005, length.out = 50)
+  grid = seq(0.01, by = 0.005, length.out = 50),
+  cores = 1
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ l=4 and a grid [0.001,0.099] by default. Both can be changed by the user}
 \item{l}{Parameter for MCV, default equals 4}
 
 \item{grid}{Range of possible bandwidth for MCV, default being [0.001,0.099] in steps of 0.002}
+
+\item{cores}{cores Integer; number of CPU cores to use for parallel bootstrap. Default is 1.}
 }
 \value{
 A list of class "results.nonpara" containing:

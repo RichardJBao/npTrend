@@ -5,7 +5,6 @@
 AWBootstrap <- function(y,time,m.tilde,B,h,newtime,k){
   n <- length(y)
   eps.hat <- y - m.tilde
-  m.hat.star <- matrix(data=0, nrow=n, ncol=B)
 
   # Precompute smoothing weight matrix, avoiding LCEstimation in each
   diff <- outer(newtime, newtime, "-")/h
@@ -16,10 +15,15 @@ AWBootstrap <- function(y,time,m.tilde,B,h,newtime,k){
   l <- stats::median(diff(time))
   L <- cholesky.decomp(time, th, l)
 
-  for (b in 1:B){
-    eps.star <- awb(eps.hat,L)
+  m.hat.star <- foreach::foreach(b = 1:B, .combine = 'cbind', .packages = "stats") %dopar% {
+
+    # Generate perturbed residuals using the corrected AWB logic (parentheses matter!)
+    eps.star <- awb(eps.hat, L)
     y.star <- m.tilde + eps.star
-    m.hat.star[,b] <- W %*% y.star
+
+    # Apply the precomputed weights to the new synthetic data
+    as.numeric(W %*% y.star)
   }
+
   return(m.hat.star)
 }

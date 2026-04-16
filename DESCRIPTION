@@ -20,7 +20,9 @@ LazyData: true
 Imports: 
     graphics,
     stats,
-    parallel
+    parallel,
+    doParallel,
+    foreach
 RoxygenNote: 7.3.3
 Suggests:
     testthat,
