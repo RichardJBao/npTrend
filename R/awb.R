@@ -8,6 +8,7 @@
 #' @keywords internal
 awb <- function(resid, L) {
   n <- length(resid)
-  nu <- L %*% stats::rnorm(n)
-  as.numeric(nu) * resid
+  v <- stats::rnorm(n)
+  nu <- L %*% (resid*v)
+  as.numeric(nu)
 }
