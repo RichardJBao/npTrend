@@ -53,7 +53,7 @@ lin.trend <- function(y,time,B,alpha, nterms=3, trim.frac=0.1, cores = 1){
 #' Plot linear trend results
 #'
 #' @param x An object of class "results.linear".
-#' @param y Ignored; included for compatibility with the plot generic.
+#' @param time A vector containing the corresponding dates.
 #' @param fit Fitted values (optional, defaults to x[[5]]).
 #' @param breakdate Estimated break date (optional).
 #' @param CI.break Confidence interval for break (optional).
@@ -67,10 +67,10 @@ lin.trend <- function(y,time,B,alpha, nterms=3, trim.frac=0.1, cores = 1){
 #'
 #' @method plot results.linear
 #' @export plot.results.linear
-plot.results.linear <- function(y, time, fit, breakdate, CI.break, low, up, xlabel, ylabel) {
+plot.results.linear <- function(x, time, fit, breakdate, CI.break, low, up, xlabel, ylabel, ...) {
 
   # 1. Initialize the plot and draw the grey data points
-  plot(time, y, type="p", lwd=1.5, ylim=c(low,up), col="grey", xlab=xlabel, ylab=ylabel)
+  plot(time, x, type="p", lwd=1.5, ylim=c(low,up), col="grey", xlab=xlabel, ylab=ylabel, ...)
 
   # 2. Add the two fitted lines from your fit list
   lines(time, fit[[1]], lwd=2, col="blue")

@@ -54,20 +54,22 @@ nonpara.trend <- function(y,time,B,alpha,h,k,nterms=3,
 
 #' Plot nonparametric trend and confidence bands
 #'
-#' @param x An object of class "results.nonpara".
+#' @param x An object of class "results.linear".
 #' @param time A vector containing the corresponding dates.
+#' @param m.hat Trend estimate vector.
+#' @param int.s Matrix of simultaneous confidence bands.
 #' @param low Lower bound of y-axis.
 #' @param up Upper bound of y-axis.
 #' @param xlabel X-axis label.
 #' @param ylabel Y-axis label.
-#' @param ... Additional arguments passed to plot.
+#' @param ... Additional arguments passed to the generic \code{plot} function.
 #'
 #' @method plot results.nonpara
 #' @export plot.results.nonpara
-plot.results.nonpara <- function(y, time, m.hat, int.s, low, up, xlabel, ylabel) {
+plot.results.nonpara <- function(x, time, m.hat, int.s, low, up, xlabel, ylabel, ...) {
 
   # 1. Initialize the plot and draw the grey data points
-  plot(time, y, type="p", ylim=c(low,up), col="grey", xlab=xlabel, ylab=ylabel)
+  plot(time, x, type="p", ylim=c(low,up), col="grey", xlab=xlabel, ylab=ylabel, ...)
 
   # 2. Add the fitted line
   lines(time, m.hat, lwd=1.5, col="black")

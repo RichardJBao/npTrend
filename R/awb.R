@@ -1,17 +1,13 @@
 #' Autoregressive wild bootstrap
 #'
 #' @param resid Residual vector
-#' @param time Time index
-#' 
+#' @param L Precalculated Cholesky matrix
+#'
 #' @return Bootstrap errors
-#' 
+#'
 #' @keywords internal
-awb <- function(resid, time) {
-  n <- length(time)
-  th <- 0.01^(1 / (1.75 * n^(1/3)))
-  l <- 1 / 365.25
-
-  L <- cholesky.decomp(time, th, l)
+awb <- function(resid, L) {
+  n <- length(resid)
   nu <- L %*% stats::rnorm(n)
   as.numeric(nu) * resid
 }

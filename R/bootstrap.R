@@ -27,31 +27,19 @@
 #' @seealso \code{\link{break.teststat}}, \code{\link{fit.trend}}
 #'
 #' @keywords internal
-# break.bootstrap <- function(y, time, nterms, B, trim.frac) {
-#
-#   trend <- as.numeric(fit.trend(y, time, nterms)[[2]])
-#   resid <- y - trend
-#
-#   eps.star <- replicate(B, awb(resid, time))
-#   y.star <- trend + eps.star
-#
-#   S.star <- numeric(B)
-#   for (b in seq_len(B)) {
-#     S.star[b] <- break.teststat(
-#       y.star[, b], time, nterms, trim.frac
-#     )[[1]]
-#   }
-#
-#   return(sort(S.star))
-# }
 
 break.bootstrap <- function(y,time,nterms,B,trim.frac){
   n <- length(time)
   trend <- as.numeric(fit.trend(y,time,nterms)[[2]])
   resid <- y - trend
+
+  th <- 0.01^(1/(1.75*n^(1/3)))
+  l <- stats::median(diff(time))
+  L <- cholesky.decomp(time, th, l)
+
   S.star <- rep(0,B)
   for (b in 1:B){
-    eps.star <- awb(resid,time)
+    eps.star <- awb(resid,L)
     y.star <- trend + eps.star
     S.star[b] <- break.teststat(y.star,time,nterms,trim.frac)[[1]]
   }
@@ -91,17 +79,23 @@ location.bootstrap <- function(y, time, trend.fit, nterms,
                                 B, alpha, trim.frac, cores = 1) {
 
   resid <- y - trend.fit
+  n <- length(time)
+
+  th <- 0.01^(1 / (1.75 * n^(1/3)))
+  l <- stats::median(diff(time))
+  L <- cholesky.decomp(time, th, l)
+
   cl <- parallel::makeCluster(cores)
 
   parallel::clusterExport(
     cl,
     c("awb", "cholesky.decomp", "regressors",
-      "fit.trend", "fit.break", "get.break"),
+      "fit.trend", "fit.break", "get.break", "L"),
     envir = environment()
   )
 
   T.star <- parallel::parSapply(cl, seq_len(B), function(b) {
-    eps.star <- as.numeric(awb(resid, time))
+    eps.star <- as.numeric(awb(resid, L))
     y.star <- trend.fit + eps.star
     get.break(y.star, time, nterms, trim.frac)[[1]]
   })
@@ -148,6 +142,11 @@ para.bootstrap <- function(y, time, trend.fit, para, breakdate,
 
   resid <- y - trend.fit
   rows <- if (breakdate == 0) 2 * nterms + 2 else 2 * nterms + 4
+  n <- length(time)
+
+  th <- 0.01^(1 / (1.75 * n^(1/3)))
+  l <- stats::median(diff(time))
+  L <- cholesky.decomp(time, th, l)
 
   cores <- max(1, parallel::detectCores() - 1)
   cl <- parallel::makeCluster(cores)
@@ -155,12 +154,12 @@ para.bootstrap <- function(y, time, trend.fit, para, breakdate,
   parallel::clusterExport(
     cl,
     c("awb", "cholesky.decomp", "regressors",
-      "fit.trend", "fit.break"),
+      "fit.trend", "fit.break", "L"),
     envir = environment()
   )
 
   diffs <- parallel::parSapply(cl, seq_len(B), function(b) {
-    eps.star <- awb(resid, time)
+    eps.star <- awb(resid, L)
     y.star <- trend.fit + eps.star
     if (breakdate == 0) {
       fit.trend(y.star, time, nterms)[[1]] - para

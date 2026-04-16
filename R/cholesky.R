@@ -22,3 +22,4 @@ cholesky.decomp <- function(time,theta,l){
   L <- chol(omega)
   return(L)
 }
+

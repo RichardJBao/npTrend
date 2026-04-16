@@ -4,12 +4,12 @@
 \alias{awb}
 \title{Autoregressive wild bootstrap}
 \usage{
-awb(resid, time)
+awb(resid, L)
 }
 \arguments{
 \item{resid}{Residual vector}
 
-\item{time}{Time index}
+\item{L}{Precalculated Cholesky matrix}
 }
 \value{
 Bootstrap errors
