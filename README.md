@@ -29,6 +29,7 @@ The following is an entire simulation study, with a simulation of atmospheric et
 1) Simulating data
 
 ```{r}
+# seed for reproducibility
 set.seed(42)
 n <- 500
 # Create a timeline in decimal years (e.g., 14 years of daily data)
@@ -58,11 +59,14 @@ plot(time,
 # Drop a vertical blue line exactly where the break occurs
 abline(v = time[break_idx], col = "blue", lty = 2, lwd = 2)
 ```
+
 <img width="798" height="605" alt="da65f3f8-d628-45dc-891a-a65d57197352" src="https://github.com/user-attachments/assets/5e01c048-43e0-4f10-a6bc-e034cd651b40" />
+
+
 
 2) Setup
 
-Note that for the non-parametric trend estimation, we require that $B > \frac{1}{alpha}$
+Note that for the non-parametric trend estimation, we require that $B > \frac{1}{alpha}$ to obtain the simultaneous confidence intervals. Generally, it is not advisable to construct simultaneous confidence intervals with such low number of bootstrap repetitions as they are likely not reliable.
 
 ```{r}
 # Load package and dependencies 
@@ -80,35 +84,63 @@ alpha <- 0.05 # Change alpha as appropriate
 2) Linear Trend with Break Detection
 
 ```{r}
-# Load package and dependencies 
+# Main trend estimation
+lin_results <- lin.trend(y, time, B, alpha, nterms = 3, trim.frac = 0.1, cores = 1)
+# cores default is 1 (no parallelization). It can be set to max(1, detectCores()-1) to parallelize the bootstrap
 
-library(npTrend)
-library(parallel)
-library(doParallel)
-library(foreach)
+# assign results
+p.value <- lin_results[[1]]
+critical.value <- lin_results[[2]]
+S_T <- lin_results[[3]]
+para <- lin_results[[4]]
+fit.fourier <- lin_results[[5]]
+breakdate <- lin_results[[6]]
+CI.breakdate <- lin_results[[7]]
+CI.para <- lin_results[[8]]
 
-# Test for a structural break and estimate linear parameters
-# Change B as appropriate
-lin.results <- lin.trend(y, time, B = 1000, alpha = 0.05)
+plot(time,
+     y,
+     xlab = "Year", 
+     ylab = "Ethane total column (molec cm-2)",
+     main = "Estimation of Breakdate and True Breakdate"
+)
 
-# Assign outputs
-p.value <- lin.results[[1]]
-critical.value <- lin.results[[2]]
-S_T <- lin.results[[3]]
-para <- lin.results[[4]]
-fit.fourier <- lin.results[[5]]
-breakdate <- lin.results[[6]]
-CI.breakdate <- lin.results[[7]]
-CI.para <- lin.results[[8]]
+legend("bottomright",                              # Position (can be "topleft", "bottomright", etc.)
+       legend = c("Estimated Break", "True Break"), # The text labels
+       col = c("blue", "purple"),               # Match the colors of your ablines
+       lty = c(2, 2),                           # Match the line types (2 = dashed)
+       lwd = c(2, 2),                           # Match the line widths
+       bty = "n")
 
-# Print output, using "low" and "up" for suitable y-axis bounds
-# plots the estimated trend, cycle, and confidence interval of breakpoint
-low <- 0
-up <- 30e+15
-ylab <- "Ethane total column (molec cm-2)"
-xlab <- "time"
-plot.results.linear(y,time,fit.fourier,breakdate,CI.breakdate,low,up,xlab,ylab)
+# Drop a vertical blue line exactly where the break occurs
+abline(v = breakdate, col = "blue", lty = 2, lwd = 2) # estimated break
+abline(v = time[break_idx], col = "purple", lty = 2, lwd = 2) # real break
 ```
+
+<img width="798" height="605" alt="0afab9dd-6bd9-45e0-abc6-cb6edb48ce76" src="https://github.com/user-attachments/assets/332db7ee-51a0-48bd-a856-12745b453014" />
+
+
+```{r}
+lin.low <- min(y)
+lin.up <- max(y)
+lin.ylab <- "Ethane total column (molec cm-2)"
+lin.xlab <- "time"
+lin.title <- "Linear Trend Estimation Results"
+
+plot.results.linear(y,time,fit.fourier,breakdate,CI.breakdate,lin.low,lin.up,lin.xlab,lin.ylab, main = lin.title)
+abline(v = breakdate, col = "purple", lty = 2, lwd = 2)
+
+legend("bottomright",                              # Position (can be "topleft", "bottomright", etc.)
+       legend = c("Estimated Break", "Break Confidence Intervals", "Seasonality Estimate", "Trend Estimate"), # The text labels
+       col = c("purple", "black", "blue", "black"),               # Match the colors of your ablines
+       lty = c(2, 3, 1, 1),                           # Match the line types (2 = dashed)
+       lwd = c(2, 2, 2, 2),                           # Match the line widths
+       bty = "n")
+
+```
+
+<img width="798" height="605" alt="a1467810-4cdd-410d-bede-ffa74bb62188" src="https://github.com/user-attachments/assets/34c07342-f26a-45b2-9c26-59772a023920" />
+
 
 2) Nonparametric Trend Estimation
 
