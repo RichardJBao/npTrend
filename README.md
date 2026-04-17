@@ -18,18 +18,74 @@ devtools::install_github("RichardJBao/npTrend")
 ```
 
 Core Features
-- Nonparametric Trend: Estimate trends using kernel smoothing with automated bandwidth selection via Modified Cross-Validation (MCV).
 - Linear Trend with Breaks: Detect and test for structural breaks in linear trends using bootstrap inference.
+- Nonparametric Trend: Estimate trends using kernel smoothing with automated bandwidth selection via Modified Cross-Validation (MCV).
 - Robust Confidence Intervals: Generate both pointwise and simultaneous confidence bands that are robust to serial correlation.
 
 # **Examples**:
 
-1) Linear Trend with Break Detection
+The following is an entire simulation study, with a simulation of atmospheric ethane data featuring a trend break and seasonality.
+
+1) Simulating data
 
 ```{r}
-# Load package
+set.seed(42)
+n <- 500
+# Create a timeline in decimal years (e.g., 14 years of daily data)
+time <- seq(1994, 2008, length.out = n) 
+
+# 2. Base Linear Trend 
+base_trend <- 10 - 0.5 * (time - 1994)
+
+# 3. Continuous Trend Reversal
+# Exactly halfway, the slope sharply reverses upward. No sudden vertical jump!
+break_idx <- n / 2
+slope_shift <- ifelse(1:n >= break_idx, 1.2 * (time - time[break_idx]), 0)
+
+# 4. Seasonality and Noise
+seasonality <- 3 * sin(2 * pi * time) + 1.5 * cos(2 * pi * time)
+noise <- rnorm(n, mean = 0, sd = 2)
+
+# 5. Final Target Variable
+y <- base_trend + slope_shift + seasonality + noise
+
+
+plot(time,
+     y, 
+     xlab = "Year", 
+     ylab = "Measurement")
+
+# Drop a vertical blue line exactly where the break occurs
+abline(v = time[break_idx], col = "blue", lty = 2, lwd = 2)
+```
+<img width="798" height="605" alt="da65f3f8-d628-45dc-891a-a65d57197352" src="https://github.com/user-attachments/assets/5e01c048-43e0-4f10-a6bc-e034cd651b40" />
+
+2) Setup
+
+Note that for the non-parametric trend estimation, we require that $B > \frac{1}{alpha}$
+
+```{r}
+# Load package and dependencies 
 
 library(npTrend)
+library(parallel)
+library(doParallel)
+library(foreach)
+
+# Set bootstrap and alpha
+B <- 1000 # Change B as appropriate
+alpha <- 0.05 # Change alpha as appropriate
+```
+
+2) Linear Trend with Break Detection
+
+```{r}
+# Load package and dependencies 
+
+library(npTrend)
+library(parallel)
+library(doParallel)
+library(foreach)
 
 # Test for a structural break and estimate linear parameters
 # Change B as appropriate
