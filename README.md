@@ -175,7 +175,7 @@ plot.results.nonpara(np_results[[1]],time,trend.est,CI.simu,np.low,np.up,np.xlab
 ```
 \
 <img width="798" height="605" alt="1eca4012-7b19-4a0b-ab6e-3701f23c5cbf" src="https://github.com/user-attachments/assets/aa9953a5-1a02-4c78-8dca-d55e29210f64" />
-\
+
 # **Authors** 
 
 Marina Friedrich (author, maintainer)
