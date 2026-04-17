@@ -63,7 +63,6 @@ abline(v = time[break_idx], col = "blue", lty = 2, lwd = 2)
 <img width="798" height="605" alt="da65f3f8-d628-45dc-891a-a65d57197352" src="https://github.com/user-attachments/assets/5e01c048-43e0-4f10-a6bc-e034cd651b40" />
 
 \
-
 2) Setup
 
 Note that for the non-parametric trend estimation, we require that $B > \frac{1}{alpha}$ to obtain the simultaneous confidence intervals. Generally, it is not advisable to construct simultaneous confidence intervals with such low number of bootstrap repetitions as they are likely not reliable.
