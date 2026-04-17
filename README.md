@@ -61,7 +61,6 @@ abline(v = time[break_idx], col = "blue", lty = 2, lwd = 2)
 ```
 \
 <img width="798" height="605" alt="da65f3f8-d628-45dc-891a-a65d57197352" src="https://github.com/user-attachments/assets/5e01c048-43e0-4f10-a6bc-e034cd651b40" />
-
 \
 2) Setup
 
@@ -79,7 +78,6 @@ library(foreach)
 B <- 1000 # Change B as appropriate
 alpha <- 0.05 # Change alpha as appropriate
 ```
-
 \
 3) Linear Trend with Break Detection
 
@@ -116,10 +114,8 @@ legend("bottomright",                              # Position (can be "topleft",
 abline(v = breakdate, col = "blue", lty = 2, lwd = 2) # estimated break
 abline(v = time[break_idx], col = "purple", lty = 2, lwd = 2) # real break
 ```
-
 \
 <img width="798" height="605" alt="0afab9dd-6bd9-45e0-abc6-cb6edb48ce76" src="https://github.com/user-attachments/assets/332db7ee-51a0-48bd-a856-12745b453014" />
-
 \
 ```{r}
 lin.low <- min(y)
@@ -139,10 +135,8 @@ legend("bottomright",                              # Position (can be "topleft",
        bty = "n")
 
 ```
-
 \
 <img width="798" height="605" alt="a1467810-4cdd-410d-bede-ffa74bb62188" src="https://github.com/user-attachments/assets/34c07342-f26a-45b2-9c26-59772a023920" />
-
 \
 4) Nonparametric Trend Estimation
 
@@ -167,10 +161,8 @@ if (h == -1){
   plot(CV[,1], CV[,2], type = "l", main = "CV Selection Criteria")
 }
 ```
-
 \
 <img width="798" height="605" alt="9fe09f16-76b2-494c-933f-df98eb9ee004" src="https://github.com/user-attachments/assets/e39c6ce1-ffe1-4f1c-b781-5074d1d6dad4" />
-
 \
 ```{r}
 # Plot the nonparametric trend and confidence estimates
@@ -181,10 +173,8 @@ np.xlab <- "Year"
 np.title <- "Nonparametric Trend Estimation and Confidence Intervals"
 plot.results.nonpara(np_results[[1]],time,trend.est,CI.simu,np.low,np.up,np.xlab,np.ylab, main = np.title)
 ```
-
 \
 <img width="798" height="605" alt="1eca4012-7b19-4a0b-ab6e-3701f23c5cbf" src="https://github.com/user-attachments/assets/aa9953a5-1a02-4c78-8dca-d55e29210f64" />
-
 \
 # **Authors** 
 
