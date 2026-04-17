@@ -9,11 +9,9 @@ You can install the development version of npTrend from GitHub:
 
 ```{r}
 # Install devtools if you haven't already
-
 if (!require("devtools")) install.packages("devtools")
 
 # Install the package
-
 devtools::install_github("RichardJBao/npTrend")
 ```
 
@@ -35,21 +33,20 @@ n <- 500
 # Create a timeline in decimal years (e.g., 14 years of daily data)
 time <- seq(1994, 2008, length.out = n) 
 
-# 2. Base Linear Trend 
+# 1. Base Linear Trend 
 base_trend <- 10 - 0.5 * (time - 1994)
 
-# 3. Continuous Trend Reversal
+# 2. Continuous Trend Reversal
 # Exactly halfway, the slope sharply reverses upward. No sudden vertical jump!
 break_idx <- n / 2
 slope_shift <- ifelse(1:n >= break_idx, 1.2 * (time - time[break_idx]), 0)
 
-# 4. Seasonality and Noise
+# 3. Seasonality and Noise
 seasonality <- 3 * sin(2 * pi * time) + 1.5 * cos(2 * pi * time)
 noise <- rnorm(n, mean = 0, sd = 2)
 
-# 5. Final Target Variable
+# 4. Final Response Variable
 y <- base_trend + slope_shift + seasonality + noise
-
 
 plot(time,
      y, 
@@ -68,7 +65,6 @@ Note that for the non-parametric trend estimation, we require that $B > \frac{1}
 
 ```{r}
 # Load package and dependencies 
-
 library(npTrend)
 library(parallel)
 library(doParallel)
@@ -82,11 +78,11 @@ alpha <- 0.05 # Change alpha as appropriate
 3) Linear Trend with Break Detection
 
 ```{r}
-# Main trend estimation
+# 1. Main trend estimation
 lin_results <- lin.trend(y, time, B, alpha, nterms = 3, trim.frac = 0.1, cores = 1)
 # cores default is 1 (no parallelization). It can be set to max(1, detectCores()-1) to parallelize the bootstrap
 
-# assign results
+# 2. Assign results
 p.value <- lin_results[[1]]
 critical.value <- lin_results[[2]]
 S_T <- lin_results[[3]]
@@ -96,6 +92,7 @@ breakdate <- lin_results[[6]]
 CI.breakdate <- lin_results[[7]]
 CI.para <- lin_results[[8]]
 
+# 3. Standard plot to view break estimate results
 plot(time,
      y,
      xlab = "Year", 
@@ -141,8 +138,8 @@ legend("bottomright",                              # Position (can be "topleft",
 4) Nonparametric Trend Estimation
 
 ```{r}
+# h is set to -1 to perform cross validation to select optimal bandwidth. It is also possible to manually choose a bandwidth to bypass the cross validation procedure
 h <- -1
-# Set to -1 to do cross validation to select optimal bandwidth. It is also possible to manually choose a bandwidth to bypass the cross validation procedure
 
 k <- k.epanech
 # options are k.cosine, k.epanech, k.quartic, k.unif
@@ -165,12 +162,14 @@ if (h == -1){
 <img width="798" height="605" alt="9fe09f16-76b2-494c-933f-df98eb9ee004" src="https://github.com/user-attachments/assets/e39c6ce1-ffe1-4f1c-b781-5074d1d6dad4" />
 
 ```{r}
-# Plot the nonparametric trend and confidence estimates
+# Assign results for the plot function
 np.low <- min(np_results[[1]]-3)
 np.up <- max(np_results[[1]]+2)
 np.ylab <- "Ethane total column - seas.adj. (molec cm-2)"
 np.xlab <- "Year"
 np.title <- "Nonparametric Trend Estimation and Confidence Intervals"
+
+# Plot the nonparametric trend and confidence estimates
 plot.results.nonpara(np_results[[1]],time,trend.est,CI.simu,np.low,np.up,np.xlab,np.ylab, main = np.title)
 ```
 \
