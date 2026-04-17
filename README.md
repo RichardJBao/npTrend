@@ -191,7 +191,7 @@ Eric Beutner (contributor)
 If you use `npTrend` in your research, please cite it as follows:
 
 **Plain Text:**
-Friedrich, Marina & Bao, Richard & Smeekes, Stephan & Beutner, Eric (2026). *npTrend: Non-parametric Trend Analysis*. R package version 1.0.0. https://github.com/yourusername/npTrend
+Friedrich, Marina & Bao, Richard & Smeekes, Stephan & Beutner, Eric (2026). *npTrend: Non-parametric Trend Analysis*. R package version 1.0.0. https://github.com/RichardJBao/npTrend
 
 **BibTeX:**
 
