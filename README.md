@@ -80,6 +80,7 @@ B <- 1000 # Change B as appropriate
 alpha <- 0.05 # Change alpha as appropriate
 ```
 
+\
 3) Linear Trend with Break Detection
 
 ```{r}
@@ -117,11 +118,9 @@ abline(v = time[break_idx], col = "purple", lty = 2, lwd = 2) # real break
 ```
 
 \
-
 <img width="798" height="605" alt="0afab9dd-6bd9-45e0-abc6-cb6edb48ce76" src="https://github.com/user-attachments/assets/332db7ee-51a0-48bd-a856-12745b453014" />
 
 \
-
 ```{r}
 lin.low <- min(y)
 lin.up <- max(y)
@@ -142,10 +141,9 @@ legend("bottomright",                              # Position (can be "topleft",
 ```
 
 \
-
 <img width="798" height="605" alt="a1467810-4cdd-410d-bede-ffa74bb62188" src="https://github.com/user-attachments/assets/34c07342-f26a-45b2-9c26-59772a023920" />
 
-
+\
 4) Nonparametric Trend Estimation
 
 ```{r}
@@ -171,11 +169,9 @@ if (h == -1){
 ```
 
 \
-
 <img width="798" height="605" alt="9fe09f16-76b2-494c-933f-df98eb9ee004" src="https://github.com/user-attachments/assets/e39c6ce1-ffe1-4f1c-b781-5074d1d6dad4" />
 
 \
-
 ```{r}
 # Plot the nonparametric trend and confidence estimates
 np.low <- min(np_results[[1]]-3)
@@ -187,11 +183,9 @@ plot.results.nonpara(np_results[[1]],time,trend.est,CI.simu,np.low,np.up,np.xlab
 ```
 
 \
-
 <img width="798" height="605" alt="1eca4012-7b19-4a0b-ab6e-3701f23c5cbf" src="https://github.com/user-attachments/assets/aa9953a5-1a02-4c78-8dca-d55e29210f64" />
 
 \
-
 # **Authors** 
 
 Marina Friedrich (author, maintainer)
