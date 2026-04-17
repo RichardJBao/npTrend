@@ -116,7 +116,7 @@ abline(v = time[break_idx], col = "purple", lty = 2, lwd = 2) # real break
 ```
 \
 <img width="798" height="605" alt="0afab9dd-6bd9-45e0-abc6-cb6edb48ce76" src="https://github.com/user-attachments/assets/332db7ee-51a0-48bd-a856-12745b453014" />
-\
+
 ```{r}
 lin.low <- min(y)
 lin.up <- max(y)
@@ -163,7 +163,7 @@ if (h == -1){
 ```
 \
 <img width="798" height="605" alt="9fe09f16-76b2-494c-933f-df98eb9ee004" src="https://github.com/user-attachments/assets/e39c6ce1-ffe1-4f1c-b781-5074d1d6dad4" />
-\
+
 ```{r}
 # Plot the nonparametric trend and confidence estimates
 np.low <- min(np_results[[1]]-3)
