@@ -1,7 +1,7 @@
 Package: npTrend
 Type: Package
 Title: Trend Estimation with Bootstrap Inference for Parametric and Nonparametric Trends in Climate Time Series
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
     person("Marina", "Friedrich", role = c("aut", "cre"), email = "m.friedrich@vu.nl", comment = "Author on paper, author of code in package"),
     person("Richard", "Bao", email = "r5bao@uwaterloo.ca", role = c("aut"), comment = "Package developer"),
